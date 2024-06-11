@@ -1,4 +1,4 @@
-# Wazuh 4.7 Installation Guide for Ubuntu 22.04
+# Wazuh 4.7 Installation Guide and install agent for Ubuntu 22.04
 
 ## Prerequisites
 - A clean installation of Ubuntu 22.04.
