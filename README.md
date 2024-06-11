@@ -49,29 +49,60 @@
     systemctl restart filebeat
     ```
 
-## Password Change Instructions
+## Wazuh Agent Installation Script
 
-If you need to change the password for the 'admin' user:
+This guide provides a script to install and configure the Wazuh agent on a Linux machine. The script will prompt you to enter the Wazuh Manager IP address and the Wazuh Agent name interactively.
 
-1. **Navigate to Wazuh OpenSearch Security Tools Directory:**
-
-    ```bash
-    cd /usr/share/wazuh-indexer/plugins/opensearch-security/tools
-    ```
-
-2. **Run Wazuh Password Tool:**
+1. **Installation Script**
+Save the following script as install_wazuh_agent.sh:
 
     ```bash
-    bash wazuh-passwords-tool.sh -u admin -newpassword
-    ```
-    Note: Replace `newpassword` with the new password you want to set.
+    #!/bin/bash
 
-3. **Restart Wazuh Dashboard Service:**
+    # Prompt the user for the Wazuh manager IP
+    read -p "Enter the Wazuh Manager IP address: " WAZUH_MANAGER
+
+    # Prompt the user for the Wazuh agent name
+    read -p "Enter the Wazuh Agent name: " WAZUH_AGENT_NAME
+
+    # Set the Wazuh agent group to 'default'
+    WAZUH_AGENT_GROUP='default'
+
+    # Download the Wazuh agent package
+    wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.4-1_amd64.deb
+
+    # Install the Wazuh agent with the specified configurations
+    sudo WAZUH_MANAGER="$WAZUH_MANAGER" WAZUH_AGENT_GROUP="$WAZUH_AGENT_GROUP" WAZUH_AGENT_NAME="$WAZUH_AGENT_NAME" dpkg -i ./wazuh-agent_4.7.4-1_amd64.deb
+
+    # Reload the systemd manager configuration
+    sudo systemctl daemon-reload
+
+    # Enable the Wazuh agent to start at boot
+    sudo systemctl enable wazuh-agent
+
+    # Start the Wazuh agent
+    sudo systemctl start wazuh-agent
+
+    ```
+
+2. **Make the script executable:**
 
     ```bash
-    systemctl restart wazuh-dashboard
+    chmod +x install_wazuh_agent.sh
     ```
 
+3. **Run the script:**
+
+    ```bash
+    ./install_wazuh_agent.sh
+    ```
+
+3. **Follow the prompts:**
+
+*Enter the Wazuh Manager IP address*
+
+*Enter the Wazuh Agent name*
+    
 ## Additional Notes
 
 - Ensure your system meets the requirements for running Wazuh.
