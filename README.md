@@ -33,7 +33,7 @@
 5. **Run Wazuh Password Tool to Set Admin Password:**
 
     ```bash
-    bash wazuh-passwords-tool.sh -u admin -yourpassword
+    bash wazuh-passwords-tool.sh -u admin -p yourpassword
     ```
     Note: Replace `yourpassword` with the actual password you want to set.
 
